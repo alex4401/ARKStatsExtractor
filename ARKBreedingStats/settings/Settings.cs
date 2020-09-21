@@ -37,8 +37,22 @@ namespace ARKBreedingStats.settings
         /// </summary>
         private void CreateListOfProcesses()
         {
-            cbbOCRApp.DataSource = System.Diagnostics.Process.GetProcesses().Select(p => new ProcessSelector { ProcessName = p.ProcessName, MainWindowTitle = p.MainWindowTitle })
-                .Distinct().Where(pn => !string.IsNullOrEmpty(pn.MainWindowTitle) && pn.ProcessName != "System" && pn.ProcessName != "idle").OrderBy(pn => pn.ProcessName).ToArray();
+            List<ProcessSelector> selectors = new List<ProcessSelector>();
+            foreach (System.Diagnostics.Process p in System.Diagnostics.Process.GetProcesses())
+            {
+                try
+                {
+                    ProcessSelector pn = new ProcessSelector {ProcessName = p.ProcessName, MainWindowTitle = p.MainWindowTitle};
+                    selectors.Add(pn);
+                }
+                catch (InvalidOperationException)
+                {
+                    continue;
+                }
+            }
+            cbbOCRApp.DataSource = selectors.Distinct()
+                .Where(pn => !string.IsNullOrEmpty(pn.MainWindowTitle) && pn.ProcessName != "System" && pn.ProcessName != "idle")
+                .OrderBy(pn => pn.ProcessName).ToArray();
         }
 
         private struct ProcessSelector
