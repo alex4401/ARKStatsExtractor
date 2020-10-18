@@ -1,4 +1,4 @@
-﻿using ARKBreedingStats.Library;
+using ARKBreedingStats.Library;
 using ARKBreedingStats.values;
 using System;
 using System.Collections.Generic;
@@ -149,6 +149,7 @@ namespace ARKBreedingStats.settings
                 { "Español", "es"},
                 { "Français", "fr"},
                 { "Italiano", "it"},
+                { "Polski", "pl"},
                 { "中文", "zh"},
             };
             foreach (string l in _languages.Keys)
